@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Escape the Office: designing interfaces for other developers</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="plugin/accessibility/helper.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="assets/custom.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Escape the Office</h1>
+					<p>[ graphic? ]</p>
+				</section>
+				<section>
+					<p>Who is this Sarah person?</p>
+					<ul>
+						<li>Dojo 2 widgets</li>
+						<li>accessibility</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Typescript is a design tool</h2>
+				</section>
+				<section>
+					<p>Design?</p>
+					<div class="overlay-container">
+						<img src="assets/ps-logo.png" alt="Photoshop?">
+						<div class="fragment overlay-content">
+							<img src="assets/nope.png" alt="not that kind of design">
+						</div>
+					</div>
+					<aside class="notes">
+						<p>Not that design</p>
+					</aside>
+				</section>
+				<section>
+					<h3>Who are you designing for?</h3>
+					<li class="fragment">Your future self</li>
+					<li class="fragment">New contributors to your code</li>
+					<li class="fragment">Developers consuming your code as a library</li>
+					<aside class="notes">
+						<p>"Your future self" includes the future of other devs currently working on the same code</p>
+					</aside>
+				</section>
+				<section>
+					<h3>How will they interact with your code?</h3>
+					<p>[graphics of milestone mayhem monsters?]</p>
+					<aside class="notes">
+						<ul>
+							<li>Future you and other contributors will be forced to match types if you have good typing for params and return values</li>
+							<li>You control the options for users. You can allow an array of any data and assume nothing (Combobox/Select pattern), limit something like alt text to a string, or force type to be a specific string</li>
+							<li>So: where do you expect to know better than users, and where do they know better?</li>
+						</ul>
+						<p>These are charicatures, but everyone has probably been in the position of wanting something to "just work", starting out and not understanding errors, and needing to extend default functionality before. They're all valid use cases, and it's reductive and unhelpful to dismiss all poor code usage as user error.</p>
+					</aside>
+				</section>
+				<section>
+					<section>
+						<h3>Caveman Coder</h3>
+						<p>[graphic from MM]</p>
+						<blockquote>
+							I want it to "just work"
+						</blockquote>
+					</section>
+					<section>
+						<h4>An icon button case study:</h4>
+						<img src="./assets/button_textOnly.png" alt="Button with text 'I am a button'"> &bull;
+						<img src="./assets/button_icon.png" alt="Button with search icon and text"> &bull;
+						<img src="./assets/button_iconOnly.png" alt="Button only search icon">
+						<aside class="notes">
+							<p>You have no idea which one he wants</p>
+						</aside>
+					</section>
+					<section>
+						<h5>Requirements:</h5>
+						<ul>
+							<li>The icon is optional</li>
+							<li>Alt text is necessary if the icon adds meaning</li>
+							<li>There is a predetermined set of possible icons</li>
+						</ul>
+						<aside class="notes">
+							<p>Elaborate on "adds meaning": the icon adds information not present in the button text</p>
+						</aside>
+					</section>
+					<section>
+						<h5>Option 1</h5>
+						<pre>
+interface ButtonProperties {
+	iconType?: string;
+	iconAltText?: string;
+}
+						</pre>
+						<ul>
+							<li class="fragment">Easy to create an incorrect <code>iconType</code></li>
+							<li class="fragment">Easy to leave off alt text</li>
+						</ul>
+					</section>
+					<section>
+						<h5>Option 2</h5>
+						<pre>
+interface ButtonProperties {
+	icon?: {
+		type: 'plus' | 'arrow' | 'search';
+		altText: string;
+	};
+}
+						</pre>
+						<ul>
+							<li class="fragment">Only supported icon types are allowed</li>
+							<li class="fragment">No alt text as an error forces the use of at least an empty string</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Intern Horde</h3>
+						<p>[graphic from MM]</p>
+						<blockquote>
+							Docs? What are docs?
+						</blockquote>
+					</section>
+					<section>
+						<h4>Let's break the icon interface</h4>
+						<blockquote style="text-align: left">
+							<p>Email Subject: Where do I find icon types?</p>
+							<p>Body:<br>For some reason <pre>icon.type: 'magnifying-glass'</pre> isn't working. What do I do?</p>
+						</blockquote>
+						<p>(they also added an empty string as altText, but only because they didn't understand the error)</p>
+						<aside class="notes">
+							<p>To be fair, at some point there's no more you can do. But we can do a little better here :)</p>
+						</aside>
+					</section>
+					<section>
+						<h4>What would help someone new to your code?</h4>
+						<ul>
+							<li>IntelliSense/code hinting</li>
+							<li>A more intuitive way to identify an icon as presentational</li>
+						</ul>
+					</section>
+					<section>
+						<h5>Final result:</h5>
+						<pre>
+enum IconType {
+	plus,
+	arrow,
+	search
+};
+interface PresentationIcon {
+	type: IconType;
+	presentation: true;
+}
+interface ContentIcon {
+	type: IconType;
+	altText: string;
+}
+interface ButtonProperties {
+	icon?: PresentationIcon | ContentIcon;
+}
+						</pre>
+						<aside class="notes">
+							<ul>
+								<li>Provides typeahead support for <code>IconType</code></li>
+								<li>IconType, PresentationIcon, and ContentIcon can be split out for wider use</li>
+								<li>Forces deliberate use of <code>presentation: true</code> if <code>altText</code> is absent</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Inventor</h3>
+						<p>[graphic from MM]</p>
+						<blockquote>
+							I also want it to do [insert 10 extra features, and a pony]
+						</blockquote>
+					</section>
+					<section>
+						<h4>TextInput addons: pony style</h4>
+						<img src="./assets/pony-input.png" alt="text input with a pony image">
+					</section>
+					<section>
+						<h5>Where do you want to preserve control?</h5>
+						<ul>
+							<li>Creating the <code>&lt;input&gt;</code> element</li>
+							<li>All events handlers, validation, etc.</li>
+							<li>Handling the association between <code>&lt;input&gt;</code> and <code>&lt;label&gt;</code></li>
+						</ul>
+						<aside class="notes">
+							<p>Weigh both complexity and consequences for failure</p>
+						</aside>
+					</section>
+					<section>
+						<h5>Where do you expect someone to add functionality?</h5>
+						<ul>
+							<li>Tooltips</li>
+							<li>Custom validation messages</li>
+							<li>Addons</li>
+						</ul>
+					</section>
+					<section>
+						<h5>Extension points:</h5>
+						<ul>
+							<li>createInput <span class="fragment">&lt;= private</span></li>
+							<li>createInputWrapper <span class="fragment">&lt;= protected</span></li>
+							<li>render <span class="fragment">&lt;= protected</span></li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h3>Flexibility vs. control</h3>
+					<p>Let's talk about <code>aria</code>...</p>
+				</section>
+				<section>
+					<h4>What is a <code>&lt;button&gt;</code>?</h4>
+					<ul>
+						<li class="fragment">A user-interactable element that performs an action on the page</li>
+						<li class="fragment">e.g. controlling a popup</li>
+						<li class="fragment">toggling a state</li>
+						<li class="fragment">submitting a form</li>
+						<li class="fragment">??</li>
+					</ul>
+					<aside class="notes">
+						<p>Example of when the user knows more</p>
+						<p>When we started, we tried to account for every use case within the button's API</p>
+						<p>There are just wayyy too many, and ARIA spec is evolving quickly</p>
+						<p>Now we internally handle popups and toggles, but allow custom props to be passed through in a bucket, but they're always prepended with <code>aria-</code></p>
+					</aside>
+				</section>
+				<section>
+					<ul>
+						<li><code>type</code></li>
+						<li><code>aria-expanded</code></li>
+						<li><code>aria-haspopup</code></li>
+						<li><code>aria-pressed</code></li>
+						<li>...</li>
+					</ul>
+					<aside class="notes">
+						<p>Balance between not expecting users to know enough or need to do that work to correctly use these attributes for popup and toggle buttons, and needing to allow for edge cases.</p>
+						<p>**Don't require knowledge of ARIA to create common use cases**</p>
+					</aside>
+				</section>
+				<section>
+					<h4>Our solution:</h4>
+					<pre>
+interface ButtonProperties {
+  aria?: { [key: string]: string; };
+  popup?: boolean;
+  pressed?: boolean;
+  type?: 'submit' | 'reset' | 'button' | 'menu';
+}</pre>
+					<aside class="notes">
+						<p>Still allows for edge cases like `aria-hidden` or `aria-label`, while providing an easy way to add popup and toggle buttons w/o user knowledge of aria</p>
+					</aside>
+				</section>
+				<!-- <section>
+					<h3>Designing for failure</h3>
+					<p>//TODO: some interesting tagline?</p>
+				</section>
+				<section>
+					<h4>Where do you expect failures?</h4>
+					<ul>
+						<li></li>
+						<li></li>
+					</ul>
+				</section> -->
+				<!-- "Escape challenge?" -->
+				<section>
+					<h2>Escape Challenge!</h2>
+					<blockquote>Create an interface for a (optionally) hidden label on a text input</blockquote>
+				</section>
+				<section>
+					<h3>Requirements</h3>
+					<ul>
+						<li>A visible label should be able to support something like <code>&lt;span class="required"&gt;*&lt;/span&gt;</code></li>
+						<li><code>aria-label</code> is ignored by translation services</li>
+						<li>This may change, and you want to keep it as a future option</li>
+					</ul>
+					<aside class="notes">
+						<p>Example of when you know more</p>
+						<p>NOT advocating hidden labels!</p>
+						<p>By only accepting a string hidden label, we can switch to aria-label in the future</p>
+						<p>A string-only visible label might be too limiting</p>
+						<p>Run suggestions through use cases from Caveman, interns, and inventor</p>
+					</aside>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/accessibility/helper.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+	</body>
+</html>

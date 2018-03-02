@@ -1,0 +1,20 @@
+.reveal section img {
+	background: none;
+	box-shadow: none;
+	border: none;
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+.overlay-container {
+	display: inline-block;
+	position: relative;
+}
+
+.overlay-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+}
