@@ -7,7 +7,7 @@
 		<title>Escape the Office: designing interfaces for other developers</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/escape.css">
 		<link rel="stylesheet" href="plugin/accessibility/helper.css">
 
 		<!-- Theme used for syntax highlighting of code -->
@@ -83,9 +83,9 @@
 					</aside>
 				</section>
 				<section>
-					<section>
+					<section data-background="has-light-background" data-background-image="assets/cavemanbg.svg" data-background-position="bottom left">
 						<h3>Caveman Coder</h3>
-						<p>[graphic from MM]</p>
+						<p><img class="character" src="assets/caveman.svg" alt="Caveman Coder"></p>
 						<blockquote>
 							I want it to "just work"
 						</blockquote>
@@ -197,9 +197,9 @@
 					</section>
 				</section>
 				<section>
-					<section>
+					<section data-background="has-light-background" data-background-image="assets/internsbg.svg" data-background-position="bottom left">
 						<h3>Intern Horde</h3>
-						<p>[graphic from MM]</p>
+						<p><img class="character" src="assets/interns.svg" alt="Intern Horde"></p>
 						<blockquote>
 							Docs? What are docs?
 						</blockquote>
@@ -429,7 +429,9 @@ interface ButtonProperties {
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/accessibility/helper.js', async: true, condition: function() { return !!document.body.classList; } }
-				]
+				],
+				history: true
+
 			});
 		</script>
 	</body>
