@@ -42,7 +42,7 @@ $heading4Size: 1.0em;
 // ---------------------------------------------
 
 .reveal {
-	[data-background='has-light-background'] {
+	.has-light-background {
 		&, h1, h2, h3, h4, h5, h6 {
 			color: #222;
 		}
