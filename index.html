@@ -116,16 +116,15 @@
 						<h5>Take 1:</h5>
 						<pre>
 							<code data-trim class="typescript">
-								interface ButtonProperties {
-									label?: text;
-									iconType?: string;
-									iconAltText?: string;
-								}
+interface ButtonProperties {
+	label?: text;
+	iconType?: string;
+	iconAltText?: string;
+}
 							</code>
 						</pre>
 					</section>
-					<section>
-						<div class="characterAvatar caveman"></div>
+					<section data-background="cavemanAvatar">
 						<pre class="fragment">
 							<code data-trim class="javascript">
 w(Button, {
@@ -134,8 +133,7 @@ w(Button, {
 							</code>
 						</pre>
 					</section>
-					<section>
-						<div class="characterAvatar caveman"></div>
+					<section data-background="cavemanAvatar">
 						<div class="fragment">
 							<img src="./assets/button_iconOnly.png" alt="Button only search icon">
 							<pre><code data-trim class="html">
@@ -159,25 +157,23 @@ w(Button, {
 					<section>
 						<h5>Take 2:</h5>
 						<pre><code data-trim class="typescript">
-							interface ButtonProperties {
-								label?: string;
-								icon?: {
-								type: string;
-								altText: string;
-								};
-							}
+interface ButtonProperties {
+	label?: string;
+	icon?: {
+	type: string;
+	altText: string;
+	};
+}
 						</code></pre>
 						<aside class="notes">
 							No alt text as an error forces the use of at least an empty string
 						</aside>
 					</section>
-					<section>
-						<div class="characterAvatar caveman"></div>
+					<section data-background="cavemanAvatar">
 						<img src="assets/button-ts-error.png" alt="typescript error showing the icon property must contain a required altText string">
 						<blockquote>Fine, I will smash my keys until this error goes away</blockquote>
 					</section>
-					<section>
-						<div class="characterAvatar caveman"></div>
+					<section data-background="cavemanAvatar">
 						<pre class="fragment fade-out"><code data-trim class="javascript">
 w(Button, {
 	icon: {
