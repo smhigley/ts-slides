@@ -283,3 +283,14 @@ body {
 .reveal blockquote {
   box-shadow: none;
   background: none; }
+
+.reveal .characterAvatar {
+  background-color: #EA575C;
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  background-size: 150%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%; }
+  .reveal .characterAvatar.caveman {
+    background-image: url("../../assets/caveman.svg"); }

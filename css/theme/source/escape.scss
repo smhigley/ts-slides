@@ -82,5 +82,19 @@ $heading4Size: 1.0em;
 		background: none;
 	}
 
+	.characterAvatar {
+		background-color:#EA575C;
+		background-position: 50% 0;
+		background-repeat: no-repeat;
+		background-size: 150%;
+		width: 200px;
+		height: 200px;
+		border-radius: 50%;
+
+		&.caveman {
+			background-image: url("../../assets/caveman.svg");
+		}
+	}
+	
 }
 

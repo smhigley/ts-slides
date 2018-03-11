@@ -65,8 +65,8 @@
 						<p>"Your future self" includes the future of other devs currently working on the same code</p>
 					</aside>
 				</section>
-				<section data-background-image="./assets/monstersbg.svg" data-background-size="cover">
-					<h3>How will they interact with your code?</h3>
+				<section data-background="#29B6B9" data-background-image="./assets/monstersbg.svg" data-background-size="cover">
+					<h3>How will they interact <br>with your code?</h3>
 					<p><img src="./assets/monsters.svg" alt="Mayhem is lurking"></p>
 					<aside class="notes">
 						<h3>Introduce the characters</h3>
@@ -114,29 +114,36 @@
 					</section>
 					<section>
 						<h5>Take 1:</h5>
-						<pre><code data-trim class="typescript">
-						interface ButtonProperties {
-						  label?: text;
-						  iconType?: string;
-						  iconAltText?: string;
-						}
-						</code></pre>
+						<pre>
+							<code data-trim class="typescript">
+								interface ButtonProperties {
+									label?: text;
+									iconType?: string;
+									iconAltText?: string;
+								}
+							</code>
+						</pre>
 					</section>
 					<section>
-						<p>[Caveman coder profile pic]</p>
-						<pre class="fragment fade-out"><code data-trim class="javascript">
-						w(Button, {
-						  iconType: 'search'
-						});
-						</code></pre>
+						<div class="characterAvatar caveman"></div>
+						<pre class="fragment">
+							<code data-trim class="javascript">
+w(Button, {
+	iconType: 'search'
+});
+							</code>
+						</pre>
+					</section>
+					<section>
+						<div class="characterAvatar caveman"></div>
 						<div class="fragment">
 							<img src="./assets/button_iconOnly.png" alt="Button only search icon">
 							<pre><code data-trim class="html">
-								<button>
-								  <svg role="img">
-								    <use xlink:href="#search"></use>
-								  </svg>
-								</button>
+<button>
+	<svg role="img">
+	<use xlink:href="#search"></use>
+	</svg>
+</button>
 							</code></pre>
 						</div>
 						<blockquote class="fragment">
@@ -152,41 +159,41 @@
 					<section>
 						<h5>Take 2:</h5>
 						<pre><code data-trim class="typescript">
-						interface ButtonProperties {
-						  label?: string;
-						  icon?: {
-						    type: string;
-						    altText: string;
-						  };
-						}
+							interface ButtonProperties {
+								label?: string;
+								icon?: {
+								type: string;
+								altText: string;
+								};
+							}
 						</code></pre>
 						<aside class="notes">
 							No alt text as an error forces the use of at least an empty string
 						</aside>
 					</section>
 					<section>
-						<p>[Caveman coder profile pic]</p>
+						<div class="characterAvatar caveman"></div>
 						<img src="assets/button-ts-error.png" alt="typescript error showing the icon property must contain a required altText string">
 						<blockquote>Fine, I will smash my keys until this error goes away</blockquote>
 					</section>
 					<section>
-						<p>[Caveman coder profile pic]</p>
+						<div class="characterAvatar caveman"></div>
 						<pre class="fragment fade-out"><code data-trim class="javascript">
-						w(Button, {
-						  icon: {
-						    type: 'search',
-						    altText: 'search'
-						  }
-						});
+w(Button, {
+	icon: {
+	type: 'search',
+	altText: 'search'
+	}
+});
 						</code></pre>
 						<div class="fragment">
 							<img src="./assets/button_iconOnly.png" alt="Button only search icon">
 							<pre><code data-trim class="html">
 								<button>
-								  <svg role="img" aria-labelledby="search-title">
-								    <title id="search-title">search</title>
-								    <use xlink:href="#search"></use>
-								  </svg>
+									<svg role="img" aria-labelledby="search-title">
+									<title id="search-title">search</title>
+									<use xlink:href="#search"></use>
+									</svg>
 								</button>
 							</code></pre>
 						</div>
@@ -228,36 +235,36 @@
 					<section>
 						<h5>From earlier:</h5>
 						<pre><code data-trim class="typescript">
-						interface ButtonProperties {
-						  label?: string;
-						  icon?: {
-						    type: string;
-						    altText: string;
-						  };
-						}
+interface ButtonProperties {
+	label?: string;
+	icon?: {
+	type: string;
+	altText: string;
+	};
+}
 						</code></pre>
 					</section>
 					<section>
 						<p>[interns profile pic]</p>
 						<pre class="fragment fade-out"><code data-trim class="javascript">
-						w(Button, {
-						  label: 'Search',
-						  icon: {
-								type: 'magnifying-glass',
-								altText: 'search'
-							}
-						});
+w(Button, {
+	label: 'Search',
+	icon: {
+		type: 'magnifying-glass',
+		altText: 'search'
+	}
+});
 						</code></pre>
 						<div class="fragment">
 							<img src="./assets/button_iconFail.png" alt="Button with search label and missing glyph box">
 							<pre><code data-trim class="html">
-								<button>
-									Search
-								  <svg role="img" aria-labelledby="search-title">
-										<title id="search-title">search</title>
-								    <use xlink:href="#magnifying-glass"></use>
-								  </svg>
-								</button>
+<button>
+	Search
+	<svg role="img" aria-labelledby="search-title">
+		<title id="search-title">search</title>
+	<use xlink:href="#magnifying-glass"></use>
+	</svg>
+</button>
 							</code></pre>
 						</div>
 						<aside class="notes">
@@ -268,22 +275,22 @@
 					<section>
 						<h5>Take 3:</h5>
 						<pre><code data-trim class="typescript">
-						enum IconType {
-						  plus,
-						  arrow,
-						  search
-						};
-						interface PresentationIcon {
-						  type: IconType;
-						  presentation: true;
-						}
-						interface ContentIcon {
-						  type: IconType;
-						  altText: string;
-						}
-						interface ButtonProperties {
-						  icon?: PresentationIcon | ContentIcon;
-						}
+enum IconType {
+	plus,
+	arrow,
+	search
+};
+interface PresentationIcon {
+	type: IconType;
+	presentation: true;
+}
+interface ContentIcon {
+	type: IconType;
+	altText: string;
+}
+interface ButtonProperties {
+	icon?: PresentationIcon | ContentIcon;
+}
 						</code></pre>
 						<aside class="notes">
 							<ul>
@@ -377,12 +384,15 @@
 				<section>
 					<h4>Our solution:</h4>
 					<pre>
+						<code>
 interface ButtonProperties {
-  aria?: { [key: string]: string; };
-  popup?: boolean;
-  pressed?: boolean;
-  type?: 'submit' | 'reset' | 'button' | 'menu';
-}</pre>
+aria?: { [key: string]: string; };
+popup?: boolean;
+pressed?: boolean;
+type?: 'submit' | 'reset' | 'button' | 'menu';
+}
+						</code>
+					</pre>
 					<aside class="notes">
 						<p>Still allows for edge cases like `aria-hidden` or `aria-label`, while providing an easy way to add popup and toggle buttons w/o user knowledge of aria</p>
 					</aside>
