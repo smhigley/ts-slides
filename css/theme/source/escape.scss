@@ -86,6 +86,11 @@ $heading4Size: 1.0em;
 		background: url("../../assets/cavemanAvatar.svg") -60px -50px no-repeat, url("../../assets/cavemanbg2.svg") no-repeat;
 		background-size: 300px, cover;
 	}
+
+	.slide-background[data-background-hash*='internsAvatar'] {
+		background: url("../../assets/internsAvatar.svg") -60px -50px no-repeat;
+		background-size: 300px;
+	}
 	
 }
 
