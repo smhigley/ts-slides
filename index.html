@@ -92,7 +92,7 @@
 							</blockquote>
 						</div>
 					</section>
-					<section>
+					<section data-background="#372B2B">
 						<h4>An icon button case study:</h4>
 						<img src="./assets/button_textOnly.png" alt="Button with text 'I am a button'"> &bull;
 						<img src="./assets/button_icon.png" alt="Button with search icon and text"> &bull;
@@ -212,7 +212,7 @@
 						<h4>Let's break the button interface</h4>
 						<blockquote style="text-align: left">
 							<p>Email Subject: Where do I find icon types?</p>
-							<p>Body:<br>For some reason <pre>icon.type: 'magnifying-glass'</pre> isn't working. What do I do?</p>
+							<p>Body:<br>For some reason <pre><code>icon.type: 'magnifying-glass'</code></pre> isn't working. What do I do?</p>
 						</blockquote>
 						<aside class="notes">
 							<p>To be fair, at some point there's no more you can do. But we can do a little better here :)</p>
@@ -436,7 +436,10 @@ interface ButtonProperties {
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/accessibility/helper.js', async: true, condition: function() { return !!document.body.classList; } }
 				],
-				history: true
+				history: true, // Transition style
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				backgroundTransition: 'fade'
+
 
 			});
 		</script>
