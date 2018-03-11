@@ -18,3 +18,17 @@
 	transform: translate(-50%, -50%);
 	width: 100%;
 }
+
+/* specific slides */
+.profile-slide > div {
+	display: flex !important;
+	align-items: start;
+}
+
+.profile-slide .profile {
+	width: 40%;
+}
+
+.profile-slide .desc {
+	text-align: left;
+}

@@ -30,12 +30,16 @@
 					<h1>Escape the Office</h1>
 					<p>[ graphic? ]</p>
 				</section>
-				<section>
-					<p>Who is this Sarah person?</p>
-					<ul>
-						<li>Dojo 2 widgets</li>
-						<li>accessibility</li>
-					</ul>
+				<section class="profile-slide">
+					<img src="./assets/avatar.png" alt="profile illustration of Sarah" class="profile">
+					<div class="desc">
+						<p>Who is this Sarah person?</p>
+						<ul>
+							<li>Dojo 2 widgets</li>
+							<li>accessibility</li>
+							<li>herds cats</li>
+						</ul>
+					</div>
 				</section>
 				<section>
 					<h2>Typescript is a design tool</h2>
@@ -65,12 +69,17 @@
 					<h3>How will they interact with your code?</h3>
 					<p>[graphics of milestone mayhem monsters?]</p>
 					<aside class="notes">
+						<h3>Introduce the characters</h3>
+						<p>I'm sure you've had the experience of working with one or more of these, now or in the past. I definitely don't work with anyone like this now, my coworkers are all the best! In fact, some of them are in the audience now ;D. </p>
+						<p>Seriously though, they're great. But writing open source means that what you make will be exposed to all sorts of developers, and some of them will come back and submit Github issues.</p>
+						<p>Yeah, these are charicatures, but everyone has probably been in the position of wanting something to "just work", starting out and not understanding errors, and needing to extend default functionality before. They're all valid use cases, and it's reductive and unhelpful to dismiss all poor code usage as user error.</p>
+						<hr>
+						<!-- TODO: this bit should be said on a different slide -->
 						<ul>
 							<li>Future you and other contributors will be forced to match types if you have good typing for params and return values</li>
 							<li>You control the options for users. You can allow an array of any data and assume nothing (Combobox/Select pattern), limit something like alt text to a string, or force type to be a specific string</li>
 							<li>So: where do you expect to know better than users, and where do they know better?</li>
 						</ul>
-						<p>These are charicatures, but everyone has probably been in the position of wanting something to "just work", starting out and not understanding errors, and needing to extend default functionality before. They're all valid use cases, and it's reductive and unhelpful to dismiss all poor code usage as user error.</p>
 					</aside>
 				</section>
 				<section>
@@ -102,32 +111,89 @@
 						</aside>
 					</section>
 					<section>
-						<h5>Option 1</h5>
-						<pre>
-interface ButtonProperties {
-	iconType?: string;
-	iconAltText?: string;
-}
-						</pre>
-						<ul>
-							<li class="fragment">Easy to create an incorrect <code>iconType</code></li>
-							<li class="fragment">Easy to leave off alt text</li>
-						</ul>
+						<h5>Take 1:</h5>
+						<pre><code data-trim class="typescript">
+						interface ButtonProperties {
+						  label?: text;
+						  iconType?: string;
+						  iconAltText?: string;
+						}
+						</code></pre>
 					</section>
 					<section>
-						<h5>Option 2</h5>
-						<pre>
-interface ButtonProperties {
-	icon?: {
-		type: 'plus' | 'arrow' | 'search';
-		altText: string;
-	};
-}
-						</pre>
-						<ul>
-							<li class="fragment">Only supported icon types are allowed</li>
-							<li class="fragment">No alt text as an error forces the use of at least an empty string</li>
-						</ul>
+						<p>[Caveman coder profile pic]</p>
+						<pre class="fragment fade-out"><code data-trim class="javascript">
+						w(Button, {
+						  iconType: 'search'
+						});
+						</code></pre>
+						<div class="fragment">
+							<img src="./assets/button_iconOnly.png" alt="Button only search icon">
+							<pre><code data-trim class="html">
+								<button>
+								  <svg role="img">
+								    <use xlink:href="#search"></use>
+								  </svg>
+								</button>
+							</code></pre>
+						</div>
+						<blockquote class="fragment">
+							Yes, this looks right. I am done here.
+						</blockquote>
+						<aside class="notes">
+							<ul>
+								<li>Easy to create an incorrect <code>iconType</code></li>
+								<li>Easy to leave off alt text</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h5>Take 2:</h5>
+						<pre><code data-trim class="typescript">
+						interface ButtonProperties {
+						  label?: string;
+						  icon?: {
+						    type: string;
+						    altText: string;
+						  };
+						}
+						</code></pre>
+						<aside class="notes">
+							No alt text as an error forces the use of at least an empty string
+						</aside>
+					</section>
+					<section>
+						<p>[Caveman coder profile pic]</p>
+						<img src="assets/button-ts-error.png" alt="typescript error showing the icon property must contain a required altText string">
+						<blockquote>Fine, I will smash my keys until this error goes away</blockquote>
+					</section>
+					<section>
+						<p>[Caveman coder profile pic]</p>
+						<pre class="fragment fade-out"><code data-trim class="javascript">
+						w(Button, {
+						  icon: {
+						    type: 'search',
+						    altText: 'search'
+						  }
+						});
+						</code></pre>
+						<div class="fragment">
+							<img src="./assets/button_iconOnly.png" alt="Button only search icon">
+							<pre><code data-trim class="html">
+								<button>
+								  <svg role="img" aria-labelledby="search-title">
+								    <title id="search-title">search</title>
+								    <use xlink:href="#search"></use>
+								  </svg>
+								</button>
+							</code></pre>
+						</div>
+						<aside class="notes">
+							<ul>
+								<li>Just having altText preset lets us do all sorts of nice a11y things</li>
+								<li>Now a screen reader will announce "search" when the button is focused</li>
+							</ul>
+						</aside>
 					</section>
 				</section>
 				<section>
@@ -139,12 +205,11 @@ interface ButtonProperties {
 						</blockquote>
 					</section>
 					<section>
-						<h4>Let's break the icon interface</h4>
+						<h4>Let's break the button interface</h4>
 						<blockquote style="text-align: left">
 							<p>Email Subject: Where do I find icon types?</p>
 							<p>Body:<br>For some reason <pre>icon.type: 'magnifying-glass'</pre> isn't working. What do I do?</p>
 						</blockquote>
-						<p>(they also added an empty string as altText, but only because they didn't understand the error)</p>
 						<aside class="notes">
 							<p>To be fair, at some point there's no more you can do. But we can do a little better here :)</p>
 						</aside>
@@ -157,25 +222,65 @@ interface ButtonProperties {
 						</ul>
 					</section>
 					<section>
-						<h5>Final result:</h5>
-						<pre>
-enum IconType {
-	plus,
-	arrow,
-	search
-};
-interface PresentationIcon {
-	type: IconType;
-	presentation: true;
-}
-interface ContentIcon {
-	type: IconType;
-	altText: string;
-}
-interface ButtonProperties {
-	icon?: PresentationIcon | ContentIcon;
-}
-						</pre>
+						<h5>From earlier:</h5>
+						<pre><code data-trim class="typescript">
+						interface ButtonProperties {
+						  label?: string;
+						  icon?: {
+						    type: string;
+						    altText: string;
+						  };
+						}
+						</code></pre>
+					</section>
+					<section>
+						<p>[interns profile pic]</p>
+						<pre class="fragment fade-out"><code data-trim class="javascript">
+						w(Button, {
+						  label: 'Search',
+						  icon: {
+								type: 'magnifying-glass',
+								altText: 'search'
+							}
+						});
+						</code></pre>
+						<div class="fragment">
+							<img src="./assets/button_iconFail.png" alt="Button with search label and missing glyph box">
+							<pre><code data-trim class="html">
+								<button>
+									Search
+								  <svg role="img" aria-labelledby="search-title">
+										<title id="search-title">search</title>
+								    <use xlink:href="#magnifying-glass"></use>
+								  </svg>
+								</button>
+							</code></pre>
+						</div>
+						<aside class="notes">
+							<p>OK, in reality that icon would just disappear, but the missing glyph box is funnier</p>
+							<p>It is actually redundant to have the svg label on there, since the icon adds no extra meaning to the existing text</p>
+						</aside>
+					</section>
+					<section>
+						<h5>Take 3:</h5>
+						<pre><code data-trim class="typescript">
+						enum IconType {
+						  plus,
+						  arrow,
+						  search
+						};
+						interface PresentationIcon {
+						  type: IconType;
+						  presentation: true;
+						}
+						interface ContentIcon {
+						  type: IconType;
+						  altText: string;
+						}
+						interface ButtonProperties {
+						  icon?: PresentationIcon | ContentIcon;
+						}
+						</code></pre>
 						<aside class="notes">
 							<ul>
 								<li>Provides typeahead support for <code>IconType</code></li>
@@ -183,6 +288,11 @@ interface ButtonProperties {
 								<li>Forces deliberate use of <code>presentation: true</code> if <code>altText</code> is absent</li>
 							</ul>
 						</aside>
+					</section>
+					<section>
+						<p>[interns profile pic]</p>
+						<img src="assets/icon_typeahead.png" alt="screen capture of code hinting for IconType">
+						<blockquote>Oh hey, search looks right</blockquote>
 					</section>
 				</section>
 				<section>
