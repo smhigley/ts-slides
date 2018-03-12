@@ -291,3 +291,7 @@ body {
 .reveal .slide-background[data-background-hash*='internsAvatar'] {
   background: url("../../assets/internsAvatar.svg") -60px -50px no-repeat;
   background-size: 300px; }
+
+.reveal .slide-background[data-background-hash*='inventorAvatar'] {
+  background: url("../../assets/inventorAvatar.svg") -60px -50px no-repeat;
+  background-size: 300px; }
