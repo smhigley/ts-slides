@@ -80,6 +80,10 @@
 	margin-left: 25px;
 }
 
+.reveal pre {
+	font-size: 0.7em;
+}
+
 @keyframes pony-dance {
   0%   { transform: rotateZ(0deg); }
   50% { transform: rotateZ(45deg); }
